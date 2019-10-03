@@ -1,0 +1,29 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { EmployeeEntity } from '../employee/employee.entity';
+import { DepartmentEntity } from '../department/department.entity';
+
+@Entity('role')
+export class RoleEntity {
+  @PrimaryGeneratedColumn() id: number;
+
+  @Column('varchar', { length: 500 })
+  name: string;
+
+  @ManyToOne(type => RoleEntity, role => role.children)
+  parent: RoleEntity;
+
+  @OneToMany(type => RoleEntity, category => category.parent)
+  children: RoleEntity[];
+
+  @ManyToOne(type => EmployeeEntity, employee => employee.roles)
+  @JoinColumn()
+  employee: EmployeeEntity;
+  @Column({ nullable: true })
+  employeeId: number;
+
+  @ManyToOne(type => DepartmentEntity, department => department.roles)
+  @JoinColumn()
+  department: DepartmentEntity;
+  @Column()
+  departmentId: number;
+}
