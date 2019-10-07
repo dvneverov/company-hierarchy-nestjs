@@ -21,12 +21,13 @@ services:
     links:
       - postgres:postgres
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app:Z
       - /usr/src/app/node_modules
     command: npm run start:dev
+#    command: /bin/sh -c "npx typeorm migration:run && npm run start:dev"
 
   postgres:
-    image: postgres:alpine
+    image: postgres:11-alpine
     restart: always
     environment:
       - POSTGRES_USER=iqoption

@@ -5,9 +5,9 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN npm install --production
 
-# CMD [ "npm", "start" ]
-CMD [ "npm", "run", "start:dev" ]
 EXPOSE 3000
+CMD [ "npm", "run", "start:dev" ]
+#CMD ["npx", "typeorm", "migration:run"]
 
 # Install development packages if NODE_ENV is set to "development"
 ARG NODE_ENV
