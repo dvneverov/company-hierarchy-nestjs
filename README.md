@@ -56,6 +56,85 @@ $ docker-compose up --build
 
 Note that "--build" option is required only on first run.
 
+## DEMO
+
+To build example hierarchy tree, run the app, then open another terminal and run seed command:
+
+```bash
+$ npm run seed
+```
+
+This will add data to the database. 
+
+**WARNING**: Seed script will TRUNCATE all tables before seeding.
+
+After successefull seeding, to check the tree, run this query in the playground:
+
+```
+query {
+  role {
+    name
+    descendants
+    employee {
+      name
+      surname
+    }
+    department {
+      name
+    }
+    children {
+      name
+      descendants
+      employee {
+        name
+        surname
+      }
+      department {
+        name
+      }
+      children {
+        name
+        descendants
+        employee {
+          name
+          surname
+        }
+        department {
+          name
+        }
+        children {
+          name
+          descendants
+          employee {
+            name
+            surname
+          }
+          department {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Alternatively, you can run CURL request:
+
+```curl
+curl 'http://localhost:3000/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:3000' --data-binary '{"query":"query {\n  role {\n    name\n    descendants\n    employee {\n      name\n      surname\n    }\n    department {\n      name\n    }\n    children {\n      name\n      descendants\n      employee {\n        name\n        surname\n      }\n      department {\n        name\n      }\n      children {\n        name\n        descendants\n        employee {\n          name\n          surname\n        }\n        department {\n          name\n        }\n        children {\n          name\n          descendants\n          employee {\n            name\n            surname\n          }\n          department {\n            name\n          }\n        }\n      }\n    }\n  }\n}\n"}' --compressed
+```
+
+To run demo in docker container, first change **host** value in file **ormconfig.json** in the root directory from "*localhost*" to "*postgres*"
+
+Next run:
+
+```bash
+docker exec -it iqoption-test_api_1 /bin/sh -c "npm run seed"
+```
+
+This will also seed database and hierarchy tree will be available to request.
+
 ## Test
 
 ```bash
