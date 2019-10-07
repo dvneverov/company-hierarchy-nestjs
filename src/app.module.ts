@@ -19,6 +19,12 @@ import { RoleModule } from './role/role.module';
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
         logging: true,
+        migrations: [
+          './dist/data/migrations/*.js',
+        ],
+        cli: {
+          migrationsDir: './src/data/migrations',
+        },
       },
     ),
     GraphQLModule.forRoot({
